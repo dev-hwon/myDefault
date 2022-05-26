@@ -1,0 +1,21 @@
+@charset "utf-8";
+.plx_type_item {
+    position:fixed;
+}
+.plx_type_bg {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-image:url('/effect_sample/imgs/bg.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 0 0;
+    background-size:cover;
+    background-color: #000;
+}
+.plx_type_bg.bg2{
+    background-image:url('/effect_sample/imgs/bg2.jpg');
+}
+.plx_type_bg.bg3{
+    background-image:url('/effect_sample/imgs/bg3.jpg');
+}

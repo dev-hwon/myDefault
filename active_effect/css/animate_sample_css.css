@@ -1,0 +1,113 @@
+@charset "utf-8";
+/*.box__wrap {
+    display:-webkit-flex;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.box__wrap > div {
+    flex: 0 0 auto;
+    width:23%;
+}*/
+.box__wrap {
+    position: relative;
+    width: 100%;
+}
+.box__wrap > div {
+    position: absolute;
+    top:0;
+    width: 200px;
+}
+.box__wrap > div:nth-child(1) {left: 0;}
+.box__wrap > div:nth-child(2) {left: 200px;}
+.box__wrap > div:nth-child(3) {left: 400px;}
+.box__wrap > div:nth-child(4) {left: 600px;}
+.box {
+    padding:35px 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color:#fff;
+    height:100px;
+}
+.box1 { background: #333;}
+.box2 { background: #555;}
+.box3 { background: #777;}
+.box4 { background: #999;}
+/**/
+.animated {
+    display: none;
+    animation-duration: 2s;
+    animation-fill-mode: both
+}
+
+.slideInLeft {
+    display: block;
+    animation-name: slideInLeft;
+}
+@keyframes slideInLeft {
+    0% {
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0);
+        opacity: 1;
+    }
+}
+.slideInRight {
+    display: block;
+    animation-name: slideInRight;
+}
+@keyframes slideInRight {
+    0% {
+        transform: translate3d(100%, 0, 0);
+        visibility: visible;
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0);
+        opacity: 1;
+    }
+}
+.slideInUp {
+    display: block;
+    animation-name: slideInUp;
+}
+@keyframes slideInUp {
+    0% {
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0);
+        opacity: 1;
+    }
+}
+.slideInDown {
+    display: block;
+    animation-name: slideInDown;
+}
+@keyframes slideInDown {
+    0% {
+        transform: translate3d(0, -100%, 0);
+        visibility: visible;
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0);
+        opacity: 1;
+    }
+}
+
+.duration__1 { animation-duration: 1s; }
+.duration__2 { animation-duration: 2s; }
+.duration__3 { animation-duration: 3s; }
+.duration__4 { animation-duration: 4s; }
+.duration__5 { animation-duration: 5s; }
+.duration__6 { animation-duration: 6s; }
+.duration__7 { animation-duration: 7s; }
+.duration__8 { animation-duration: 8s; }
+.duration__9 { animation-duration: 9s; }

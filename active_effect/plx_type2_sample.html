@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>parallax_type2</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/plx_type2_sample_css.css">
+    <script src="../common/js/lib/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div class="react_wrap">
+    <div class="" style="position:relative; padding:350px 0; text-align: center; font-size: 40px; color:#333; font-weight: bold; z-index: 100;">
+        TEXT PLX TYPE2
+    </div>
+    <div class="react_box"></div>
+    <div class="react_box2"></div>
+</div>
+<div class="container">
+    <div class="text-area">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut dolor esse facilis fuga id in modi nemo nihil placeat praesentium quam quia quis quos, rem saepe, sed, sunt voluptatibus.
+    </div>
+    <div class="text-area">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut dolor esse facilis fuga id in modi nemo nihil placeat praesentium quam quia quis quos, rem saepe, sed, sunt voluptatibus.
+    </div>
+    <div class="text-area">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut dolor esse facilis fuga id in modi nemo nihil placeat praesentium quam quia quis quos, rem saepe, sed, sunt voluptatibus.
+    </div>
+</div>
+
+<script>
+    // 기본값
+    const mousePos = { x: 0, y: 0 };
+
+    // 반응 30
+    const thisElem = document.querySelector('.react_box');
+    function mousemoveHandler(e) {
+
+        mousePos.x = -1 + (e.clientX / window.innerWidth * 2);
+        mousePos.y = 1 - (e.clientY / window.innerHeight * 2);
+        thisElem.style.transform = 'translateX(' + (mousePos.x * 30) + 'px) translateY(' + (mousePos.y * 30) + 'px)';
+    }
+    window.addEventListener('mousemove', mousemoveHandler);
+
+    // 반응 100
+    const thisElem2 = document.querySelector('.react_box2');
+    function mousemoveHandler2(e) {
+
+        mousePos.x = -1 + (e.clientX / window.innerWidth * 2);
+        mousePos.y = 1 - (e.clientY / window.innerHeight * 2);
+        thisElem2.style.transform = 'translateX(' + (mousePos.x * 100) + 'px) translateY(' + (mousePos.y * 100) + 'px)';
+    }
+    window.addEventListener('mousemove', mousemoveHandler2);
+</script>
+</body>
+</html>
