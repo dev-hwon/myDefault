@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>set cookie</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/plx_type2_sample_css.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="text-area">
+        <a href="#" class="btn-givemethestamp animated" data-animate="slideright" data-duration="1">스탬프 받기</a>
+        <br>
+        <br>
+        <br>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut dolor esse facilis fuga id in modi nemo nihil placeat praesentium quam quia quis quos, rem saepe, sed, sunt voluptatibus.
+    </div>
+</div>
+
+<script>
+    // 쿠키 가져오기
+    // var getCookie = function (cname) {
+    // 	var name = cname + "=";
+    // 	var ca = document.cookie.split(';');
+    // 	for(var i=0; i<ca.length; i++) {
+    // 		var c = ca[i];
+    // 		while (c.charAt(0)==' ') c = c.substring(1);
+    // 		if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    // 	}
+    // 	return "";
+    // }
+    // 24시간 기준 쿠키 설정하기
+    var setCookie = function (cname, cvalue, exdays) {
+        var todayDate = new Date();
+        todayDate.setTime(todayDate.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires=" + todayDate.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    // 클릭시 작동
+    var stamp_btn = $(".btn-givemethestamp");
+    var stamp = $('.stamp');
+    var stamp_active = stamp.find("li.active");
+    stamp_btn.on('click', function(e){
+        e.preventDefault();
+        var cookiedata = document.cookie;
+        if(cookiedata.indexOf("receive_stamp=Y")<0){
+            stamp.find("li").not(stamp_active).eq(0).addClass('active');
+            alert('스탬프가 발급되었습니다.');
+            setCookie("receive_stamp","Y",1);
+        }else{
+            alert('이미 오늘 스탬프를 받으셨습니다.');
+        }
+    });
+</script>
+</body>
+</html>

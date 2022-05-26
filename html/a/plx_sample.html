@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>parallax_type1</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/plx_sample_css.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body style="height: 2000px; background: #ccc;">
+<section class="sample">
+    <div class="plx plx_type_item" data-plxtype="item" data-plxspeed="0.5" style="padding:80px 0; text-align: center; color:#fff; font-size: 20px; font-weight: bold; background: rgba(0,0,0,0.6); width: 250px; left:30%; top:200px;">
+        TEST PARALLAX TYPE_ITEM
+    </div>
+    <div class="plx plx_type_item" data-plxtype="item" data-plxspeed="0.3" style="padding:80px 0; text-align: center; color:#fff; font-size: 20px; font-weight: bold; background: rgba(0,0,0,0.6); width: 250px; left:30%; top:200px;">
+        TEST PARALLAX TYPE_ITEM
+    </div>
+    <div class="plx plx_type_item" data-plxtype="item" data-plxspeed="0.2" style="padding:80px 0; text-align: center; color:#fff; font-size: 20px; font-weight: bold; background: rgba(0,0,0,0.6); width: 250px; left:50%; top:600px;">
+        TEST PARALLAX TYPE_ITEM
+    </div>
+    <div class="plx plx_type_item" data-plxtype="item" data-plxspeed="0.4" style="padding:80px 0; text-align: center; color:#fff; font-size: 20px; font-weight: bold; background: rgba(0,0,0,0.6); width: 250px; left:70%; top:800px;">
+        TEST PARALLAX TYPE_ITEM
+    </div>
+    <div class="plx plx_type_item" data-plxtype="item" data-plxspeed="0.7" style="padding:80px 0; text-align: center; color:#fff; font-size: 20px; font-weight: bold; background: rgba(0,0,0,0.6); width: 250px; left:10%; top:700px;">
+        TEST PARALLAX TYPE_ITEM
+    </div>
+    <div class="plx plx_type_bg" data-plxtype="bg" data-plxspeed="0.5">
+        <div style="padding:300px 0; text-align: center; color:#fff; font-size: 34px; font-weight: bold; background: rgba(0,0,0,0.3);">TEST PARALLAX TYPE_BG</div>
+    </div>
+
+    <div class="plx plx_type_bg bg2" data-plxtype="bg" data-plxspeed="0.5">
+        <div style="padding:300px 0; text-align: center; color:#fff; font-size: 34px; font-weight: bold; background: rgba(0,0,0,0.3);">TEST PARALLAX TYPE_BG</div>
+    </div>
+    <div class="plx plx_type_bg bg3" data-plxtype="bg" data-plxspeed="0.5">
+        <div style="padding:300px 0; text-align: center; color:#fff; font-size: 34px; font-weight: bold; background: rgba(0,0,0,0.3);">TEST PARALLAX TYPE_BG</div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <script>
+
+    </script>
+</section>
+
+
+<div class="orb2">
+    <div style="padding:300px 0; text-align: center; color:#fff; font-size: 34px; font-weight: bold; background: rgba(0,0,0,0.3);">TEST PARALLAX TYPE2</div>
+</div>
+<script>
+
+    const orb2 = document.querySelector('.orb2'),
+        ease = 0.5,
+        start_position = orb2.offsetTop,
+        unit2 = 1.5;
+
+    let animation_running = false,
+        total_offset = 0,
+        scroll_request = 0;
+
+    function animate_scroll() {
+        scroll_request++;
+        if (!animation_running) {
+            animation_running = true;
+            animation_loop();
+        }
+    }
+
+    function animation_loop() {
+        const current_offset = window.pageYOffset;
+        let difference = current_offset - total_offset;
+
+        difference *= ease;
+        if (Math.abs(difference) < 0.05) {
+            scroll_request = 0;
+            total_offset = current_offset;
+            animation_running = false;
+
+            return;
+        }
+
+        orb2.style.backgroundPositionY = `${start_position - (total_offset * unit2)}px`;
+        total_offset += difference;
+        requestAnimationFrame(animation_loop);
+    }
+
+    document.addEventListener('scroll', animate_scroll);
+</script>
+
+</body>
+</html>

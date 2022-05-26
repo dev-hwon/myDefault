@@ -1,0 +1,89 @@
+@charset "utf-8";
+body {
+    position: relative;
+    background-color: #fff;
+}
+/* --------------------------------------------------------
+                    header area
+-------------------------------------------------------- */
+header {position: fixed; top: 0; left: 0; width: 350px; height: 100%; background: #f6f6f6; z-index: 1000; box-shadow: 0 0 14px 0 rgba(0,0,0,.25);}
+
+/* gnb */
+.h_gnb {position:relative; width: 100%; height:100%; display: flex; align-items: center;}
+.h_gnb .gnb_menu{flex: 0 0 auto; width: 100%;}
+.h_gnb .gnb_menu > ul {}
+.h_gnb .gnb_menu > ul > li {font-size: 38px; font-weight: bold; color:#000; line-height:1.6; padding-left:20px; cursor: pointer; letter-spacing: -.5px;}
+.h_gnb .sub_gnb_menu { padding-top:10px; margin-bottom:25px;}
+.h_gnb .sub_gnb_menu li { position: relative; font-size: 18px; font-weight: normal; line-height: 2; padding-left: 36px; color:#666;}
+.h_gnb .sub_gnb_menu li:after { content:""; display: block; width: 4px; height: 4px; border-radius: 50%; position:absolute; top:50%; left:20px; background-color: var(--color-default);}
+
+/* my info */
+.h_gnb .my_info {position:absolute; bottom:25px; left:20px;}
+.h_gnb .my_info ul {}
+.h_gnb .my_info ul li {font-size: 15px; font-weight: 300; color:#888; line-height: 1.6;}
+.h_gnb .my_info ul li a {color: var(--color-default);}
+/* --------------------------------------------------------
+                    main area
+-------------------------------------------------------- */
+/* 공통 */
+.main_index {margin: 0 0 0 auto; padding: 0 0 0 350px; overflow: hidden;}
+.main_index .main_row {position:relative; padding:80px 0; border-bottom:1px solid #eee;}
+.main_index h3.title {font-size: 26px; font-weight: 500; color:#333; margin-bottom:30px;}
+.main_index .sub_tit {font-size: 18px; font-weight: 500; color:#666; margin-bottom: 10px}
+.main_index .summary {position:relative; padding-top:30px;}
+.main_index .summary:before {content:""; display: block; width:60px; height:3px; background: var(--color-default); position:absolute; top:0; left:0;}
+
+.main_index .summary .list-hyphen {}
+.main_index .summary .list-hyphen li {position:relative; padding-left: 15px; font-size: 20px; line-height: 23px; margin-bottom:10px;}
+.main_index .summary .list-hyphen li:before {content:"-"; display: inline-block; position:absolute; top:0; left:0;}
+
+/* plx area */
+.plx_type_bg {margin: 0; padding: 0; width: 100%; height: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: 0 0; background-size:cover; background-color: #000;}
+.plx_inner_wrap {text-align: center; color: #fff; font-size: 34px; font-weight: bold; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;}
+.plx_inner_wrap .txt {font-size: 70px; font-weight: 500;}
+.plx_inner_wrap .txt em {font-size: 66px; font-weight: 400;}
+.main__bnnr {position:relative; margin: 0 0 0 auto; padding: 0 0 0 350px; background-image:url('../images/bg3.jpg'); z-index: 100;}
+
+
+/* work1 _  에누리 */
+#comp_enuri .bg_bar {content: ""; width: 300%; height: 600px; background: #5a9dff; position: absolute; top: 50%; left: 50%; margin-left: -150%; transform: rotate(-18deg);}
+.pf_swiper {margin-top:60px; pointer-events: none;}
+.pf_frame_pc {position:relative; padding-top: 90%; }
+.pf_frame_pc:after {content:"";display: block; width: 100%; height: 100%; position:absolute; top:0; left:0; background-image:url('../images/pf_frame_pc.png'); background-repeat: no-repeat; background-position: 0 0; background-size: 100% auto; z-index: 10;pointer-events: none;}
+.pf_swiper_pc {position: absolute; top: 5%; left: 4.6%; width: 90.8%; height: 63.8%;}
+.pf_swiper_pc .swiper-wrapper,
+.pf_swiper_pc .swiper-wrapper .swiper-slide {height:100%;}
+.pf_swiper_pc .swiper-slide img {max-width: 100%; height: 100%; object-fit: cover;}
+.pf_frame_mobile {position:relative; padding-top: 200%; }
+.pf_frame_mobile:after {content:""; display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-image:url('../images/pf_frame_mobile.png'); background-repeat: no-repeat; background-position: 0 0; background-size: 100% auto; z-index: 10; pointer-events: none;}
+
+.pf_frame_mobile .pf_swiper_mobile {position:absolute; top: 3%; left: 6.6%; width: 87%; height: 94.1%;}
+.pf_frame_mobile .pf_swiper_mobile .swiper-wrapper,
+.pf_frame_mobile .pf_swiper_mobile .swiper-wrapper .swiper-slide {height:100%;}
+.pf_frame_mobile .pf_swiper_mobile .swiper-slide img {width: 100%;}
+
+/* work2 _  off */
+#comp_off .bg_bar {content: ""; width: 300%; height: 600px; background: #ff9d9d; position: absolute; top: 50%; left: 50%; margin-left: -150%; transform: rotate(18deg);}
+
+.pf_list {margin-top:60px;}
+.pf_list .sort_menu {display: flex; flex-wrap: wrap; margin-bottom: 25px;}
+.pf_list .sort_menu li {flex: 0 0 auto; margin-right: 8px; border-radius: 4px; color: #888; background: #ddd; height: 40px; line-height: 40px; padding: 0 15px; transition: all .4s; cursor: pointer;}
+.pf_list .sort_menu li.active,
+.pf_list .sort_menu li:hover {color:#fff; background: #ff4444;}
+
+.pf_list .col {margin-bottom:20px; display: none;}
+.pf_list .sort_content a {display: block; text-align: center;}
+.pf_list .sort_content a .p_img {padding-top:100%; background-size: cover; background-repeat: no-repeat; background-position: center; border: 1px solid #ddd; border-radius: 4px;}
+.pf_list .sort_content a .p_text_wrap {margin-top:8px;}
+.pf_list .sort_content a .p_text_wrap .p_title {font-size: 18px; font-weight: 500;}
+.pf_list .sort_content a .p_text_wrap .p_exp {font-size: 14px; color:#888; margin-top:4px;}
+
+
+
+/* modal popup */
+.modal_overlay {position:fixed; width: 100%; height: 100%; top:0; left:0; background: rgba(0,0,0,.4); z-index: 9999;}
+.modalpopup {display:none; position:fixed; top:50%; left:50%; width:50%; background: #fff; -webkit-border-radius: 10px; border-radius: 10px; z-index: 10000;}
+.modalpopup .modal_header {font-size: 18px; color:#333; border-bottom:1px solid #333; padding:10px;}
+.modalpopup .modal_content,
+.modalpopup .modal_footer {font-size: 16px; color:#666; padding:10px;}
+.modalpopup .btn-close {position: absolute; top: 0; right: 0; padding: 8px 18px; font-size: 30px; line-height: 1; cursor: pointer;}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>count</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body style="background: #ccc;">
+<section class="countjs">
+    <div class="container">
+        <div id="countsample2" style="font-size: 30px; font-weight: bold; color:#000;"></div>
+        <script>
+            function countUp(target, num, sec) {
+                var countTarget = document.getElementById(target);
+                var str = 0;
+                var countEffect = setInterval(function(){
+                    if(num > str){
+                        str++;
+                        countTarget.innerText = str;
+                    } else {
+                        clearInterval(countEffect);
+                    }
+                }, sec);
+                return false;
+            }
+            countUp('countsample2', 100, 5);
+        </script>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,23 @@
+.viewer {
+    float: left;
+    width: 220px;
+}
+.controller {
+    overflow: hidden;
+}
+
+.circle > div {
+    display: grid;
+    grid: auto / auto auto;
+}
+
+.ellipse > div, .polygon > div {
+    display: grid;
+    grid: auto / auto auto auto;
+}
+
+.csstext {
+    background: #fbfcb0;
+    border: 1px solid #ffbf51;
+    padding: 3px 10px;
+}

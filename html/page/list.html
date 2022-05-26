@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" href="https://img.enuri.info/2014/layout/favicon_enuri.ico">
+	<link rel="stylesheet" type="text/css" href="../css/pub_test_list.css"/>
+	<script type="text/javascript" src="http://www.enuri.com/common/js/lib/jquery-1.9.1.min.js"></script>
+	<title>pub test list</title>
+</head>
+<body>
+<div class="main_index">
+	<div class="wrap">
+		<div id="mainContent"></div>
+	</div>
+</div>
+
+<script>
+    const id = '#mainContent'
+    const url_prefix = 'http://dev.enuri.com'
+    const spread_sheed_id = '1hDjcoi9M3BSsrD5Q9Jd3s99GXX5-avORAku3mXa3F7o';
+    const sheet_key = 'AIzaSyB16M0bnw6HYtErSpx2ODYN1sfmO243RX0'
+    const googleV4 = 'https://sheets.googleapis.com/v4/spreadsheets/';
+    let sheet_dimension = '';  //ROW or COLUMNS
+    let sheetNameJson = googleV4 + spread_sheed_id +'?key='+ sheet_key;
+    let sheet_name_arr = []
+    
+    $.ajax({
+        type:"GET",
+        url: sheetNameJson,
+        dataType: "JSON",
+        // success: successCall
+    }).done(function(data){
+        $.each(data.sheets, function(index, values) {
+            sheet_name_arr[index] = values.properties.title;
+            if(index === 0) {
+                gSheet(values.properties.title);
+            }
+        });
+    });
+    
+    function gSheet(sheet_name) {
+        let sheetJson = googleV4 + spread_sheed_id +'/values/'+ sheet_name +'?key='+ sheet_key + (sheet_dimension === 'COLUMNS' ?  '&majorDimension='+ sheet_dimension : '');
+        $.ajax({
+            type:"GET",
+            url: sheetJson,
+            dataType: "JSON",
+            // data: "data",
+            success: successCall
+        }).done(function(data){
+            let html = '';
+            
+            html += '   <div class="area_gnb">';
+            html +=         '<ul class="tab_menu">';
+            for (let i=0;i < sheet_name_arr.length;i++) {
+                html +=         '<li data-tabname="tab-'+ sheet_name_arr[i] +'">'+ sheet_name_arr[i] +'</li>';
+            }
+            html +=         '</ul>';
+            html += '   </div>';
+            
+            html += '   <div class="area_data_list">';
+            html += '       <h3 class="sheet_name">' + sheet_name +'</h3>';
+            html += '       <ul class="data_list">';
+            $.each(data.values, function(index, values){
+                html +=     '<li>';
+                html +=         '<ul class="'+ (index === 0 ? 'data_title data_row' : 'data_row')+ '">';
+                for (let i=0;i < data.values[0].length;i++) {
+                    if(i===0 && index > 0) {
+                        html +=         '<li>'+ index +'</li>';
+                    } else if(i===3 && index > 0) {
+                        html +=         '<li><a target="_blank" href="'+ (values[3] ? url_prefix + values[3] :'') +'">'+ (values[3] ? values[3] :'-') +'</a></li>';
+                    } else {
+                        html +=         '<li>'+ (values[i] ? values[i] :'-') +'</li>';
+                    }
+                }
+                html +=         '</ul>';
+                html +=     '</li>';
+            })
+            html += '       </ul>';
+            html += '   </div>';
+            
+            $('#mainContent').append(html);
+            nolink();
+            tab();
+        });
+    }
+    function successCall(){
+        console.log("전송성공");
+    }
+    function nolink() {
+        $('a').on('click', function(e){
+            let link_fullurl = $(this).attr('href');
+            if(!link_fullurl) {
+                alert('이동할 페이지가 없습니다.')
+                return false;
+            }
+        });
+    }
+    function tab() {
+        $('.tab_menu li').on('click', function(){
+            let target = $(this).data('tabname').replace('tab-','');
+            $('.area_data_list', id).children().remove();
+            gSheet(target);
+        });
+    }
+	// 페이징
+    function renderPagination(currentPage) {
+        if (_totalCount <= 20) return;
+    
+        var totalPage = Math.ceil(_totalCount / 20);
+        var pageGroup = Math.ceil(currentPage / 10);
+    
+        var last = pageGroup * 10;
+        if (last > totalPage) last = totalPage;
+        var first = last - (10 - 1) <= 0 ? 1 : last - (10 - 1);
+        var next = last + 1;
+        var prev = first - 1;
+    
+        const fragmentPage = document.createDocumentFragment();
+        if (prev > 0) {
+            var allpreli = document.createElement('li');
+            allpreli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='allprev'>&lt;&lt;</a>`);
+        
+            var preli = document.createElement('li');
+            preli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='prev'>&lt;</a>`);
+        
+            fragmentPage.appendChild(allpreli);
+            fragmentPage.appendChild(preli);
+        }
+    
+        for (var i = first; i <= last; i++) {
+            const li = document.createElement("li");
+            li.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='page-${i}' data-num='${i}'>${i}</a>`);
+            fragmentPage.appendChild(li);
+        }
+    
+        if (last < totalPage) {
+            var allendli = document.createElement('li');
+            allendli.insertAdjacentHTML("beforeend", `<a href='#js-bottom'  id='allnext'>&gt;&gt;</a>`);
+        
+            var endli = document.createElement('li');
+            endli.insertAdjacentHTML("beforeend", `<a  href='#js-program-detail-bottom'  id='next'>&gt;</a>`);
+        
+            fragmentPage.appendChild(endli);
+            fragmentPage.appendChild(allendli);
+        }
+    
+        document.getElementById('js-pagination').appendChild(fragmentPage);
+        // 페이지 목록 생성
+    
+        $(`#js-pagination a`).removeClass("active");
+        $(`#js-pagination a#page-${currentPage}`).addClass("active");
+    
+        $("#js-pagination a").click(function (e) {
+            e.preventDefault();
+            var $item = $(this);
+            var $id = $item.attr("id");
+            var selectedPage = $item.text();
+        
+            if ($id == "next") selectedPage = next;
+            if ($id == "prev") selectedPage = prev;
+            if ($id == "allprev") selectedPage = 1;
+            if ($id == "allnext") selectedPage = totalPage;
+        
+            list.renderPagination(selectedPage);//페이지네이션 그리는 함수
+            list.search(selectedPage);//페이지 그리는 함수
+        });
+    };
+</script>
+</body>
+</html>

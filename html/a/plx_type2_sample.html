@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>parallax_type2</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/plx_type2_sample_css.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="react_wrap">
+    <div class="" style="position:relative; padding:350px 0; text-align: center; font-size: 40px; color:#333; font-weight: bold; z-index: 100;">
+        TEXT PLX TYPE2
+    </div>
+    <div class="react_box plxtype2" data-vx="100" data-vy="100"></div>
+    <div class="react_box2 plxtype2" data-vx="30" data-vy="50"></div>
+</div>
+<div class="container">
+    <div class="text-area">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut dolor esse facilis fuga id in modi nemo nihil placeat praesentium quam quia quis quos, rem saepe, sed, sunt voluptatibus.
+    </div>
+    <div class="text-area">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut dolor esse facilis fuga id in modi nemo nihil placeat praesentium quam quia quis quos, rem saepe, sed, sunt voluptatibus.
+    </div>
+    <div class="text-area">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aut dolor esse facilis fuga id in modi nemo nihil placeat praesentium quam quia quis quos, rem saepe, sed, sunt voluptatibus.
+    </div>
+</div>
+
+<script>
+    //jQuery
+    (function($) {
+        $(function() {
+            function plxType2(idx) {
+                var mousePos = { x: 0, y: 0 };
+                idx.each(function(index, item){
+                    var target = $(this);
+                    var valueX = target.data('vx');
+                    var valueY = target.data('vy');
+                    $(window).mousemove(function(e){
+                        // 특정구간 설정
+                        var moveArea = target.parent();
+                        // 특정구간 안에서 작동
+                        if(moveArea.has(e.target).length){
+                            mousePos.x = -1 + (e.clientX / $(window).innerWidth() * 2);
+                            mousePos.y = 1 - (e.clientY / $(window).innerHeight() * 2);
+                            // console.log('x: '+mousePos.x +', y : '+ mousePos.y);
+                            $(item).css({
+                                'transform':'translateX('+ (mousePos.x * valueX) +'px) translateY('+ (mousePos.y * valueY) +'px)'
+                            })
+                        }
+                    });
+                });
+            }
+            plxType2($('.plxtype2'))
+        });
+    })(jQuery);
+
+    // pure javascript
+    // 기본값
+    const mousePos = { x: 0, y: 0 };
+
+    // 반응 30
+    const thisElem = document.querySelector('.react_box');
+    function mousemoveHandler(e) {
+
+        mousePos.x = -1 + (e.clientX / window.innerWidth * 2);
+        mousePos.y = 1 - (e.clientY / window.innerHeight * 2);
+        thisElem.style.transform = 'translateX(' + (mousePos.x * 30) + 'px) translateY(' + (mousePos.y * 30) + 'px)';
+    }
+    window.addEventListener('mousemove', mousemoveHandler);
+
+    // 반응 100
+    const thisElem2 = document.querySelector('.react_box2');
+    function mousemoveHandler2(e) {
+
+        mousePos.x = -1 + (e.clientX / window.innerWidth * 2);
+        mousePos.y = 1 - (e.clientY / window.innerHeight * 2);
+        thisElem2.style.transform = 'translateX(' + (mousePos.x * 100) + 'px) translateY(' + (mousePos.y * 100) + 'px)';
+    }
+    window.addEventListener('mousemove', mousemoveHandler2);
+</script>
+</body>
+</html>

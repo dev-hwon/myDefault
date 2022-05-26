@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>animation clip-path</title>
+</head>
+<body>
+<h3>clip-path:</h3>
+<pre class="csstext">clip-path: none;</pre>
+<div class="viewer">
+  <img src="http://resrc.devdic.com/img/bysize/below_200/01.png" />
+</div>
+<div class="controller">
+  <fieldset>
+    <input type="radio" id="clip-shape-none" name="clip-shape" value="none" checked />
+    <label for="clip-shape-none">none</label>
+  </fieldset>
+  <fieldset class="fieldset circle">
+    <legend>
+      <input type="radio" id="clip-shape-circle" name="clip-shape" value="circle" />
+      <label for="clip-shape-circle">Circle</label>
+    </legend>
+    <div>
+      <div>Position</div><div>Radius</div>
+      <div>
+        X: <input type="range" id="shape-circle-position-x" min="10" max="100" value="50" />%<br />
+        Y: <input type="range" id="shape-circle-position-y" min="10" max="100" value="50" />%
+      </div>
+      <div><input type="range" id="shape-circle-radius" min="10" max="200" value="100" />px</div>
+    </div>
+  </fieldset>
+
+  <fieldset class="fieldset ellipse">
+    <legend>
+      <input type="radio" id="clip-shape-ellipse" name="clip-shape" value="ellipse" />
+      <label for="clip-shape-ellipse">Ellipse</label>
+    </legend>
+    <div>
+      <div>Position</div><div>Horizontal Radius</div><div>Vertical Radius</div>
+      <div>
+        X: <input type="range" id="shape-ellipse-position-x" min="10" max="100" value="50" />%<br />
+        Y: <input type="range" id="shape-ellipse-position-y" min="10" max="100" value="50" />%
+      </div>
+      <div><input type="range" id="shape-ellipse-radius-x" min="10" max="200" value="100" />px</div>
+      <div><input type="range" id="shape-ellipse-radius-y" min="10" max="200" value="70" />px</div>
+    </div>
+  </fieldset>
+
+  <fieldset class="fieldset polygon">
+    <legend>
+      <input type="radio" id="clip-shape-triangle" name="clip-shape" value="triangle" />
+      <label for="clip-shape-triangle">Triangle</label>
+    </legend>
+    <div>
+      <div>Point 1</div><div>Point 2</div><div>Point 3</div>
+      <div>
+        X: <input type="range" id="shape-triangle-p1-x" min="10" max="100" value="10" />%<br />
+        Y: <input type="range" id="shape-triangle-p1-y" min="10" max="100" value="10" />%
+      </div>
+      <div>
+        X: <input type="range" id="shape-triangle-p2-x" min="10" max="100" value="80" />%<br />
+        Y: <input type="range" id="shape-triangle-p2-y" min="10" max="100" value="20" />%
+      </div>
+      <div>
+        X: <input type="range" id="shape-triangle-p3-x" min="10" max="100" value="50" />%<br />
+        Y: <input type="range" id="shape-triangle-p3-y" min="10" max="100" value="80" />%
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    var clipPathType, cssText, func = [];
+    var elsClipShape = document.querySelectorAll("input[type='radio'][name='clip-shape']");
+
+    Array.from(elsClipShape).forEach(function(item) {
+      item.onclick = function() {
+        var clipShape = this.value;
+        if (clipShape == "none") {
+          cssText ="none";
+          apply();
+        } else func[clipShape]();
+      }
+    });
+
+    func['circle'] = function() {
+      var circlePositoinX, circlePositoinY, circleRadius;
+
+      var elPosX = document.getElementById("shape-circle-position-x");
+      circlePositoinX = elPosX.value;
+      elPosX.oninput = function() {
+        circlePositoinX = this.value;
+        execute();
+      };
+
+      var elPosY = document.getElementById("shape-circle-position-y");
+      circlePositoinY = elPosY.value;
+      document.getElementById("shape-circle-position-y").oninput = function() {
+        circlePositoinY = this.value;
+        execute();
+      };
+
+      var elRadius = document.getElementById("shape-circle-radius");
+      circleRadius = elRadius.value;
+      document.getElementById("shape-circle-radius").oninput = function() {
+        circleRadius = this.value;
+        execute();
+      };
+
+      execute();
+
+      function execute() {
+        cssText = "circle(" + circleRadius + "px at " + circlePositoinX + "% " + circlePositoinY + "%)";
+        apply();
+      }
+    }
+
+
+    func['ellipse'] = function() {
+      var ellipsePositoinX, ellipsePositoinY, ellipseRadiusX, ellipseRadiusY;
+
+      var elPosX = document.getElementById("shape-ellipse-position-x");
+      ellipsePositoinX = elPosX.value;
+      elPosX.oninput = function() {
+        ellipsePositoinX = this.value;
+        execute();
+      };
+
+      var elPosY = document.getElementById("shape-ellipse-position-y");
+      ellipsePositoinY = elPosY.value;
+      document.getElementById("shape-ellipse-position-y").oninput = function() {
+        ellipsePositoinY = this.value;
+        execute();
+      };
+
+      var elRadiusX = document.getElementById("shape-ellipse-radius-x");
+      ellipseRadiusX = elRadiusX.value;
+      document.getElementById("shape-ellipse-radius-x").oninput = function() {
+        ellipseRadiusX = this.value;
+        execute();
+      };
+
+      var elRadiusY = document.getElementById("shape-ellipse-radius-y");
+      ellipseRadiusY = elRadiusY.value;
+      document.getElementById("shape-ellipse-radius-y").oninput = function() {
+        ellipseRadiusY = this.value;
+        execute();
+      };
+
+      execute();
+
+      function execute() {
+        cssText = "ellipse(";
+        cssText += ellipseRadiusX + "px " + ellipseRadiusY + "px";
+        cssText += " at " + ellipsePositoinX + "% " + ellipsePositoinY + "%)";
+        apply();
+      }
+    }
+
+
+    func['triangle'] = function() {
+      var triangleP1X, triangleP1Y, triangleP2X, triangleP2Y, triangleP3X, triangleP3Y;
+
+      var elP1X = document.getElementById("shape-triangle-p1-x");
+      triangleP1X = elP1X.value;
+      elP1X.oninput = function() {
+        triangleP1X = this.value;
+        execute();
+      };
+
+      var elP1Y = document.getElementById("shape-triangle-p1-y");
+      triangleP1Y = elP1Y.value;
+      elP1Y.oninput = function() {
+        triangleP1Y = this.value;
+        execute();
+      };
+      var elP1X = document.getElementById("shape-triangle-p1-x");
+      triangleP1X = elP1X.value;
+      elP1X.oninput = function() {
+        triangleP1X = this.value;
+        execute();
+      };
+
+      var elP2X = document.getElementById("shape-triangle-p2-x");
+      triangleP2X = elP2X.value;
+      elP2X.oninput = function() {
+        triangleP2X = this.value;
+        execute();
+      };
+      var elP2Y = document.getElementById("shape-triangle-p2-y");
+      triangleP2Y = elP2Y.value;
+      elP2Y.oninput = function() {
+        triangleP2Y = this.value;
+        execute();
+      };
+
+      var elP3X = document.getElementById("shape-triangle-p3-x");
+      triangleP3X = elP3X.value;
+      elP3X.oninput = function() {
+        triangleP3X = this.value;
+        execute();
+      };
+      var elP3Y = document.getElementById("shape-triangle-p3-y");
+      triangleP3Y = elP3Y.value;
+      elP3Y.oninput = function() {
+        triangleP3Y = this.value;
+        execute();
+      };
+
+
+      execute();
+
+      function execute() {
+        cssText = "polygon(";
+        cssText += triangleP1X + "% " + triangleP1Y + "%,";
+        cssText += triangleP2X + "% " + triangleP2Y + "%,";
+        cssText += triangleP3X + "% " + triangleP3Y + "%)";
+        apply();
+      }
+    }
+
+
+    function apply() {
+      document.querySelector(".viewer > img").style.clipPath = cssText;
+      document.querySelector(".csstext").textContent = "clip-path: " + cssText + ";";
+    }
+  });
+</script>
+
+</body>
+</html>

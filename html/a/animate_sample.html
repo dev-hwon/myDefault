@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>animate</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/animate_sample_css.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* 그냥넣은... */
+        @supports (position: sticky) or (position: -webkit-sticky) {
+            .sticky {
+                position: -webkit-sticky; /* 사파리 브라우저 지원 */
+                position: sticky;
+                top: 4px;
+                background: red;
+            }
+        }
+    </style>
+</head>
+<body>
+<div style="position:relative; padding-top:1100px; padding-bottom:1100px; background: #ccc;">
+    <section class="middle-banner">
+        <div class="container" style="position: relative; ">
+            <div class="box__wrap">
+                <div class="animated" data-animate="slideleft" data-duration="2">
+                    <div class="box box1">test1</div>
+                </div>
+                <div class="animated" data-animate="slideright" data-duration="4">
+                    <div class="box box2">test2</div>
+                </div>
+                <div class="animated" data-animate="slideup" data-duration="1">
+                    <div class="box box3">test3</div>
+                </div>
+                <div class="animated" data-animate="slidedown" data-duration="3">
+                    <div class="box box4">test4</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        (function($) {
+            $(function() {
+                var areaWin = $(window);
+                function isScrolledIntoView(target, check) {
+                    var docViewTop = areaWin.scrollTop();
+                    var docViewBottom = docViewTop + areaWin.height();
+                    var elemTop = target.offset().top;
+                    var elemBottom = elemTop + target.height();
+                    var animate_nm = target.data('animate');
+
+                    if(animate_nm == 'slideup') {
+                        if(check == 'down') {
+                            elemTop = elemTop-target.height();
+                        }
+                        return (docViewBottom >= elemTop);
+                    } else {
+                        return (docViewBottom >= elemTop);
+                    }
+
+                    // return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+                    // return (docViewBottom >= elemTop);
+                }
+
+                $('.animated').each(function(index, item) {
+                    var animate_nm = $(item).data('animate');
+                    var animate_duration = "duration__" + $(item).data('duration');
+                    var animate_class = "";
+                    switch(animate_nm) {
+                        case "slideleft":
+                            animate_class = 'slideInLeft'
+                            break;
+                        case "slideright":
+                            animate_class = 'slideInRight'
+                            break;
+                        case "slideup":
+                            animate_class = 'slideInUp'
+                            break;
+                        case "slidedown":
+                            animate_class = 'slideInDown'
+                            break;
+                    }
+                    var position = $(window).scrollTop();
+                    $(document).on("scroll", function (event) {
+                        var scroll = $(window).scrollTop();
+                        if(scroll > position) {
+                            var wheelcontrol = 'down'
+                        } else {
+                            var wheelcontrol = 'up'
+                        }
+                        position = scroll;
+                        console.log(wheelcontrol);
+
+                        if (isScrolledIntoView($(item),wheelcontrol)) {
+                            $(item).addClass(animate_class+" "+ (animate_duration ? animate_duration : ''));
+                        }
+                        if (!isScrolledIntoView($(item),wheelcontrol)) {
+                            $(item).removeClass(animate_class+" "+ (animate_duration ? animate_duration : ''));
+                        }
+                    });
+                });
+                // $(window).on('wheel', function(event){
+                //     if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+                //         var wheeldir = 'up'
+                //     }
+                //     else {
+                //         var wheeldir = 'down'
+                //     }
+                // });
+
+
+            });
+        })(jQuery);
+    </script>
+</div>
+</body>
+</html>

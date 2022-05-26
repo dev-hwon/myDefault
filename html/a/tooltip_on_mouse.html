@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>rotate_page</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="field">
+    <ul class="field_menu_list">
+        <li class="" data-name="page1">page1</li>
+        <li class="" data-name="page2">page2</li>
+        <li class="" data-name="page3">page3</li>
+        <li class="" data-name="page4">page4</li>
+    </ul>
+    <div class="field_rotate_page">
+        <div id="page1" class=""><span>page1</span></div>
+        <div id="page2" class=""><span>page2</span></div>
+        <div id="page3" class=""><span>page3</span></div>
+        <div id="page4" class=""><span>page4</span></div>
+    </div>
+</div>
+<script>
+    // get_rotate_value
+    function getRotateValue(obj) {
+        var matrix = obj.css("-webkit-transform") ||
+            obj.css("-moz-transform")    ||
+            obj.css("-ms-transform")     ||
+            obj.css("-o-transform")      ||
+            obj.css("transform");
+        if(matrix !== 'none') {
+            var values = matrix.split('(')[1].split(')')[0].split(',');
+            var a = values[0];
+            var b = values[1];
+            var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+        } else { var angle = 0; }
+        return (angle < 0) ? angle + 360 : angle;
+    }
+
+    // function makeField(area){
+    //     var field = $(area);
+    //     var page = field.find('.field_rotate_page > div');
+    //     var page_cnt = page.length;
+    //     field.css('height', (areaWin.height() * page_cnt));
+    // }
+
+    // rotate_scroll
+    var areaWin = $(window);
+    function rotate_page(){
+        var bg_arr = [];
+        var field = $('.field')
+        var page = $('.field_rotate_page > div')
+        var page_cnt = page.length;
+
+        field.css('height', (areaWin.height() * page_cnt));
+
+
+        page.each(function(index, item){
+            bg_arr.push($(item).css('background-color'));
+            var bg_arr_num = 0;
+            var old_rotate_value = getRotateValue($(item));
+
+            areaWin.scroll(function(){
+                var scroll_length = field.height() * 0.25;
+                var docViewTop = areaWin.scrollTop();
+                var move_rotate_value = Math.floor(docViewTop * (90 / scroll_length));
+                $(item).css({
+                    'transform': 'rotate('+ (old_rotate_value + move_rotate_value) +'deg)'
+                });
+                // 배경컨트롤인데...음...별로...
+                if(move_rotate_value <= 90) {
+                    bg_arr_num = 1;
+                } else if ( move_rotate_value > 90 && move_rotate_value <= 180) {
+                    bg_arr_num = 2;
+                } else if ( move_rotate_value > 180 && move_rotate_value <= 270) {
+                    bg_arr_num = 3;
+                } else if ( move_rotate_value < 360) {
+                    bg_arr_num = 3;
+                } else {
+                    bg_arr_num = 0;
+                }
+                field.css({ backgroundColor : bg_arr[bg_arr_num]});
+
+
+                // wheelUpDown();
+                // if(direction ==='down') {
+                //
+                //     $('html, body').stop().animate({scrollTop: item_scroll_value}, 400);
+                // } else {
+                //
+                // }
+            });
+
+        });
+
+        // 클릭시 해당위치로 페이지로
+        $('.field_menu_list li').on('click', function(){
+            var btn_index = $(this).index();
+            var item_scroll_value = areaWin.height() * btn_index;
+            $('html, body').stop().animate({scrollTop: item_scroll_value}, 400);
+            field.css({ backgroundColor : bg_arr[btn_index]});
+
+        });
+
+
+    }
+    rotate_page();
+
+    // var direction ='';
+    // function wheelUpDown() {
+    //     $('html, body').on('mousewheel DOMMouseScroll', function(e){
+    //         var E = e.originalEvent;
+    //         delta = 0;
+    //         if (E.detail) {
+    //             delta = E.detail * -40;
+    //         }else{
+    //             delta = E.wheelDelta;
+    //             if(delta < 0) { // 스크롤다운
+    //                 direction = 'down';
+    //             } else {
+    //                 direction = 'up';
+    //             }
+    //         };
+    //     });
+    //     return result_text;
+    // }
+
+    var IMG_ENURI_COM       = "http://img.enuri.info";
+    var banSrchKwdArea = jQuery(".keyword__txt--ad");
+    var banSrchJsonUrl = "/main/main2018/ajax/banSrchKeyword.json";
+
+    //통합 검색창 배너정보
+    var banSrchKwdObj = (function() {
+        var json = null;
+        function shuffle(o){ //v1.0
+            for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+            return o;
+        }
+        jQuery.ajax({
+            'async': false,
+            'global': false,
+            'url': banSrchJsonUrl,
+            'dataType': "json",
+            'success': function (data) {
+                var jsonArr = data.mainKeyword;
+
+                if (jsonArr.length > 0) {
+                    jsonArr = shuffle (jsonArr);
+                    json = jsonArr[0];
+                    if (typeof(param_keyword) != 'undefined' && param_keyword.length>0){
+                    }else{
+                        banSrchKwdArea.text(json.SRCH_KWD_NM);
+                        //banSrchKwdArea.css("color", "#"+json.FONT_COLR_CD);
+                        if(json.FONT_BOLD_YN == "Y") {
+                            banSrchKwdArea.css("font-weight", "bold");
+                        }
+                    }
+                }
+            }
+        });
+        return json;
+    })();
+
+    jQuery(document).ready(function(){
+
+        if ('thehyun1' == 'yongcom') {
+            alert('사용 중인 기기에서 이벤트 \n부정참여가 발견되었습니다. \n법적 손해배상청구를 진행예정이오니 \n신속히 고객센터로 연락주십시오.\n\n [고객센터 02-6354-3601]');
+            setInterval(function(){ alert('사용 중인 기기에서 이벤트 \n 부정참여가 발견되었습니다. \n 법적 손해배상청구를 진행예정이오니 \n 신속히 고객센터로 \n 연락주십시오.\n\n [고객센터 02-6354-3601]');}, 20000);
+        }
+
+        if (typeof(param_keyword) != 'undefined' && param_keyword.length>0){
+        }else{
+            jQuery("#search_keyword").val("");
+        }
+
+    });
+
+    //키보드 문자키 입력 시 검색창 포커싱
+    var target_input = jQuery('#search_keyword'); // 포커스 인풋
+    var chk_short = true;
+
+    jQuery(document).bind("keydown keyup", function(e) {
+        var key = e.keyCode;
+        var tg = e.target;
+        if(tg.tagName == "INPUT" ||  tg.tagName == "TEXTAREA") return true;
+        var specific = key >= 48 && key <= 90;
+        if(e.type == "keydown") {
+            if(!specific) {
+                chk_short = false;
+                return true;
+            }
+
+            if(specific && chk_short) {
+                if(key!=116 && key!=123)  target_input.focus().select();
+                else {
+                    chk_short = false;
+                    return true;
+                }
+                //target_input.focus().select(); return false;
+            }
+            if(e.ctrlKey && e.keyCode == 86){
+                target_input.focus().select();
+            }
+        } else {
+            if(specific) {
+                chk_short = true;
+            }
+        }
+    });
+
+    jQuery("input, textarea").bind("blur", function() {
+        chk_short = true;
+    });
+
+    //검색창 내 배너
+    getMainTopBanner();
+    function getMainTopBanner(){
+        var loadUrl = "http://ad-api.enuri.info/enuri_PC/pc_home/B3/req";
+        jQuery.getJSON(loadUrl,function(json){
+
+            var html = "<a href='javascript:///' data-url='"+json.JURL1+"'>";
+            html +="<img src='"+json.IMG1+"' alt=''>";
+            html +="</a>";
+            jQuery(".sr-related__bnr").html(html);
+
+            jQuery(".sr-related__bnr > a").click(function(){
+                var url = jQuery(this).attr("data-url");
+                window.open(url);
+            });
+
+        });
+    }
+
+    jQuery(function(){ // GNB Sticky
+
+    })
+
+</script>
+
+</body>
+</html>

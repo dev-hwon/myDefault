@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>animate</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/move_scroll_sample_css.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body style="background: #ccc;">
+<div class="wrap">
+    <nav>
+        <ul id="gnb_move">
+            <li><a href="#sect1">MOVE BUTTON 1</a></li>
+            <li><a href="#sect2">MOVE BUTTON 2</a></li>
+            <li><a href="#sect3">MOVE BUTTON 3</a></li>
+        </ul>
+        <div class="bin_area"></div>
+    </nav>
+    <div class="container">
+        <section id="sect1" class="section">
+            <div class="">test1</div>
+        </section>
+        <section id="sect2" class="section">
+            <div class="">test2</div>
+        </section>
+        <section id="sect3" class="section">
+            <div class="">test3</div>
+        </section>
+    </div>
+
+    <div class="test" style="">
+        <h3 style="padding-left: 10px;">test scroll</h3>
+        <div class="test_wrap">
+            <div class="test_inner">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem enim, <br><br><br>
+                eveniet facilis, illo inventore labore magnam minima modi natus officiis placeat<br>
+                reiciendis saepe sed temporibus veritatis! Dolorem hic non suscipit? <br><br><br>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque, <br>
+
+                consequatur culpa debitis id non officia voluptatibus! Aliquam aperiam debitis deleniti et exercitationem illo, <br><br><br>
+                iusto, maiores odio officia porro provident.
+                consequatur culpa debitis id non officia voluptatibus! Aliquam aperiam debitis deleniti et exercitationem illo, <br><br><br>
+                iusto, maiores odio officia porro provident.
+                consequatur culpa debitis id non officia voluptatibus! Aliquam aperiam debitis deleniti et exercitationem illo, <br><br><br>
+                iusto, maiores odio officia porro provident.
+                consequatur culpa debitis id non officia voluptatibus! Aliquam aperiam debitis deleniti et exercitationem illo, <br><br><br>
+                iusto, maiores odio officia porro provident.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+(function($) {
+    $(function() {
+        var $menu = $('#gnb_move li'),
+            $menu_wrap = $('#gnb_move'),
+            $test = $('.test'),
+            $section = $('.section');
+
+        $('a', $menu).on('click', function (e) {
+            e.preventDefault();
+            var $target = $(this).parent(),
+                idx = $target.index(),
+                offsetTop = Math.ceil($section.eq(idx).offset().top);
+
+            $('html, body').stop().animate({ scrollTop: offsetTop }, 500);
+            return false;
+        });
+
+        $('a', $menu).each(function(index, item){
+            var scrollid = $(item).attr('href');
+            var menu_pos = $menu_wrap.offset().top;
+            var test_pos = $test.offset().top - 54;
+            $(window).scroll(function(){
+                var docViewTop = $(window).scrollTop();
+                var scrollid_offsettop = $(scrollid).offset().top -10; //
+                var scrollid_offsetbottom = scrollid_offsettop+$(scrollid).height();
+                // 상단메뉴고정
+                if(docViewTop > menu_pos) {
+                    $menu_wrap.addClass('fixed');
+                } else {
+                    $menu_wrap.removeClass('fixed');
+                }
+                // 오른쪽 박스
+                if(docViewTop > test_pos) {
+                    $test.addClass('fixed');
+                } else {
+                    $test.removeClass('fixed');
+                }
+                // 해다영역에서 클래스생성
+                if((docViewTop >= scrollid_offsettop) && (docViewTop <= scrollid_offsetbottom)) {
+                    $(item).addClass("active");
+                } else {
+                    $(item).removeClass("active");
+                }
+                return false;
+            });
+        });
+    });
+})(jQuery);
+</script>
+</body>
+</html>

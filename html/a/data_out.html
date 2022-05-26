@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>data_page</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/data_out.css">
+    <script  src="//code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+<button type="button" class="btn_test"> 버튼!! </button>
+<div class="test_tbl">
+
+</div>
+<script>
+    var row = {
+        'value' : 0,
+        'limit' : 10,
+        'clickCnt' : 0
+    }
+    function loadList(value, limit) {
+        var html = '';
+        for (var i = value; i < limit; i++) {
+            html += '    <span>data' + i +'</span>'
+        }
+        $('.test_tbl').append(html);
+    }
+    $('button').on('click', function(){
+        var v = (row.clickCnt * row.limit) + 1;
+        var l = (row.limit * (row.clickCnt + 1)) + 1;
+        
+        loadList(v,l,'.test_tbl');
+        row.clickCnt++;
+    });
+</script>
+
+<div class="main_index">
+    <div class="wrap">
+        <div id="mainContent"></div>
+    </div>
+</div>
+<script>
+    const id = '#mainContent'
+    const url_prefix = 'http://dev.enuri.com'
+    const spread_sheed_id = '1hDjcoi9M3BSsrD5Q9Jd3s99GXX5-avORAku3mXa3F7o';
+    const sheet_key = 'AIzaSyB16M0bnw6HYtErSpx2ODYN1sfmO243RX0'
+    let sheet_url;
+    let sheet_name;
+    let sheet_dimension;
+    let sheet_name_arr = ['home_pc', 'home_mobile'] //시트명자동으로 끌어오는방법을모르겠네;; 시벌.. 일단 직접등록
+    
+    let g_sheet = {
+        init : function(sheetNm) {
+            sheet_name = sheetNm;
+            sheet_dimension = '';  //ROW or COLUMNS
+            sheet_url = 'https://sheets.googleapis.com/v4/spreadsheets/'+ spread_sheed_id +'/values/'+ sheet_name +'?key='+ sheet_key + (sheet_dimension === 'COLUMNS' ?  '&majorDimension='+ sheet_dimension : '');
+        },
+        set : function(target,sheetNm) {
+            this.init(sheetNm);
+            $.ajax({
+                type:"GET",
+                url: sheet_url,
+                dataType: "JSON",
+                // data: "data",
+                // success: successCall,
+                // error : errorCall,
+                // complete : completeCall
+            }).done(function(data){
+                let html = '';
+                
+                html += '   <div class="area_gnb">';
+                html +=         '<ul class="tab_menu">';
+                for (let i=0;i < sheet_name_arr.length;i++) {
+                    html +=         '<li data-tabname="tab-'+ sheet_name_arr[i] +'">'+ sheet_name_arr[i] +'</li>';
+                }
+                html +=         '</ul>';
+                html += '   </div>';
+                
+                html += '   <div class="area_data_list">';
+                html += '       <h3 class="sheet_name">' + sheet_name +'</h3>';
+                html += '       <ul class="data_list">';
+                $.each(data.values, function(index, values){
+                    html +=     '<li>';
+                    html +=         '<ul class="'+ (index === 0 ? 'data_title data_row' : 'data_row')+ '">';
+                    for (let i=0;i < data.values[0].length;i++) {
+                        if(i===0 && index > 0) {
+                            html +=         '<li>'+ index +'</li>';
+                        } else if(i===3 && index > 0) {
+                            html +=         '<li><a target="_blank" href="'+ (values[3] ? url_prefix + values[3] :'') +'">'+ (values[3] ? values[3] :'-') +'</a></li>';
+                        } else {
+                            html +=         '<li>'+ (values[i] ? values[i] :'-') +'</li>';
+                        }
+                    }
+                    html +=         '</ul>';
+                    html +=     '</li>';
+                })
+                html += '       </ul>';
+                html += '   </div>';
+                
+                
+                
+                $(target).append(html);
+                nolink();
+                tab();
+            });
+            function successCall(){
+                alert("전송성공");
+            }
+            function errorCall(){
+                alert("전송실패");
+            }
+            function completeCall(){
+                alert("일단완료");
+            }
+        }
+    }
+    function nolink() {
+        $('a').on('click', function(e){
+            let link_fullurl = $(this).attr('href');
+            console.log(link_fullurl);
+            if(!link_fullurl) {
+                alert('이동할 페이지가 없습니다.')
+                return false;
+            }
+        });
+    }
+    function tab() {
+        $('.tab_menu li').on('click', function(){
+           let target = $(this).data('tabname').replace('tab-','');
+           $('.area_data_list', id).children().remove();
+           g_sheet.set(id,target);
+        });
+    }
+    $(window).on('load', function(){
+        g_sheet.set(id,'home_pc');
+    });
+    
+</script>
+</body>
+</html>

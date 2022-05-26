@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>data_page</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/data_out.css">
+    <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+</head>
+<body>
+<div id="">
+    <ul class="page_menu_btn">
+        <li class="" data-sheetname="home">home</li>
+        <li class="" data-sheetname="sub">sub</li>
+    </ul>
+    <ul id="here_data">
+    
+    </ul>
+</div>
+
+<script>
+    const spread_sheets_id = '1hDjcoi9M3BSsrD5Q9Jd3s99GXX5-avORAku3mXa3F7o';
+    const sheets_key = 'AIzaSyB16M0bnw6HYtErSpx2ODYN1sfmO243RX0';
+    
+    // 시트 전체정보
+    let sheet_info = 'https://sheets.googleapis.com/v4/spreadsheets/'+ spread_sheets_id +'?key='+ sheets_key;
+    let arr_sheetName = [];
+    let arr_data = [];
+    let html;
+    $.getJSON(sheet_info, function (data) {
+        $.each(data.sheets, function(index, value){
+            arr_sheetName.push(value.properties.title);
+            arr_data.length = 0;
+            
+            let selectSheet_url = 'https://sheets.googleapis.com/v4/spreadsheets/'+ spread_sheets_id +'/values/'+ value.properties.title +'?key='+ sheets_key;
+            $.getJSON(selectSheet_url, function (data) {
+                $.each(data.values, function(index, value){
+                    if(index > 0) {
+                        arr_data.push({
+                            no:value[0],
+                            pagename:value[1] ,
+                            description : value[2],
+                            url : value[3]
+                        });
+                    }
+                })
+            });
+        })
+    });
+   
+    $(document).on('load', function(){
+        $.each(arr_data, function(index, row){
+            html +='<li>'+ row.no +'</li>';
+            html +='<li>'+ row.pagename +'</li>';
+            html +='<li>'+ row.description +'</li>';
+            html +='<li>'+ row.url +'</li>';
+        })
+        $('#here_data').append(html);
+    });
+    
+    
+    // var sheet_name = 'home';
+    // var sheet_url = 'https://sheets.googleapis.com/v4/spreadsheets/'+ spread_sheets_id +'/values/'+ sheet_name +'?key='+ sheets_key + (sheet_dimension === 'COLUMNS' ?  '&majorDimension='+ sheet_dimension : '');
+    //
+    // var sheet_dimension = ''; //ROWS or COLUMNS
+    // var arr_data = [];
+    // $.getJSON(sheet_url, function (data) {
+    //     var sheetRange = data.range;
+    //     var endIndex = sheetRange.indexOf('!');
+    //     var sheetName = sheetRange.slice(0, endIndex);
+    //     arr_sheetName.push(sheetName); //
+    //     $.each(data.values, function(index, value){
+    //         if(index > 0) {
+    //             arr_data.push({
+    //                 no:value[0],
+    //                 pagename:value[1] ,
+    //                 desciption : value[2],
+    //                 url : value[3]
+    //             });
+    //         }
+    //     })
+    // });
+</script>
+</body>
+</html>

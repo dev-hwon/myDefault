@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>data_page</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/data_out.css">
+    <script  src="//code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+<div class="main_index">
+    <div class="wrap">
+        <div id="mainContent"></div>
+    </div>
+</div>
+
+<script>
+    const id = '#mainContent'
+    const url_prefix = 'http://dev.enuri.com'
+    const spread_sheed_id = '1hDjcoi9M3BSsrD5Q9Jd3s99GXX5-avORAku3mXa3F7o';
+    const sheet_key = 'AIzaSyB16M0bnw6HYtErSpx2ODYN1sfmO243RX0'
+    const googleV4 = 'https://sheets.googleapis.com/v4/spreadsheets/';
+    let sheet_name = 'home_pc';
+    let sheet_dimension = '';  //ROW or COLUMNS
+    let sheetNameJson = googleV4 + spread_sheed_id +'?key='+ sheet_key;
+    let sheetJson = googleV4 + spread_sheed_id +'/values/'+ sheet_name +'?key='+ sheet_key + (sheet_dimension === 'COLUMNS' ?  '&majorDimension='+ sheet_dimension : '');
+    let sheet_name_arr = []
+    
+    $.ajax({
+        type:"GET",
+        url: sheetNameJson,
+        dataType: "JSON",
+        // success: successCall
+    }).done(function(data){
+        $.each(data.sheets, function(index, values) {
+            sheet_name_arr[index] = values.properties.title;
+        });
+    });
+    
+    function gSheet(sheet_name) {
+        $.ajax({
+            type:"GET",
+            url: sheetJson,
+            dataType: "JSON",
+            // data: "data",
+            success: successCall
+        }).done(function(data){
+            let html = '';
+        
+            html += '   <div class="area_gnb">';
+            html +=         '<ul class="tab_menu">';
+            for (let i=0;i < sheet_name_arr.length;i++) {
+                html +=         '<li data-tabname="tab-'+ sheet_name_arr[i] +'">'+ sheet_name_arr[i] +'</li>';
+            }
+            html +=         '</ul>';
+            html += '   </div>';
+        
+            html += '   <div class="area_data_list">';
+            html += '       <h3 class="sheet_name">' + sheet_name +'</h3>';
+            html += '       <ul class="data_list">';
+            $.each(data.values, function(index, values){
+                html +=     '<li>';
+                html +=         '<ul class="'+ (index === 0 ? 'data_title data_row' : 'data_row')+ '">';
+                for (let i=0;i < data.values[0].length;i++) {
+                    if(i===0 && index > 0) {
+                        html +=         '<li>'+ index +'</li>';
+                    } else if(i===3 && index > 0) {
+                        html +=         '<li><a target="_blank" href="'+ (values[3] ? url_prefix + values[3] :'') +'">'+ (values[3] ? values[3] :'-') +'</a></li>';
+                    } else {
+                        html +=         '<li>'+ (values[i] ? values[i] :'-') +'</li>';
+                    }
+                }
+                html +=         '</ul>';
+                html +=     '</li>';
+            })
+            html += '       </ul>';
+            html += '   </div>';
+        
+            $('#mainContent').append(html);
+            nolink();
+            tab();
+        });
+    }
+    function successCall(){
+        console.log("전송성공");
+    }
+    function nolink() {
+        $('a').on('click', function(e){
+            let link_fullurl = $(this).attr('href');
+            console.log(link_fullurl);
+            if(!link_fullurl) {
+                alert('이동할 페이지가 없습니다.')
+                return false;
+            }
+        });
+    }
+    function tab() {
+        $('.tab_menu li').on('click', function(){
+            let target = $(this).data('tabname').replace('tab-','');
+            $('.area_data_list', id).children().remove();
+            gSheet(target);
+        });
+    }
+    $(window).on('load', function(){
+        gSheet('home_pc');
+    });
+</script>
+</body>
+</html>
