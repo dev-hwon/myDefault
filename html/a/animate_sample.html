@@ -23,16 +23,16 @@
     <section class="middle-banner">
         <div class="container" style="position: relative; ">
             <div class="box__wrap">
-                <div class="animated" data-animate="slideleft" data-duration="2">
+                <div class="animated" data-animate="slideleft" data-duration="2" data-delay="3">
                     <div class="box box1">test1</div>
                 </div>
-                <div class="animated" data-animate="slideright" data-duration="4">
+                <div class="animated" data-animate="slideright" data-duration="4" data-delay="6">
                     <div class="box box2">test2</div>
                 </div>
-                <div class="animated" data-animate="slideup" data-duration="1">
+                <div class="animated" data-animate="slideup" data-duration="1" data-delay="9">
                     <div class="box box3">test3</div>
                 </div>
-                <div class="animated" data-animate="slidedown" data-duration="3">
+                <div class="animated" data-animate="slidedown" data-duration="3" data-delay="1">
                     <div class="box box4">test4</div>
                 </div>
             </div>
@@ -65,6 +65,7 @@
                 $('.animated').each(function(index, item) {
                     var animate_nm = $(item).data('animate');
                     var animate_duration = "duration__" + $(item).data('duration');
+                    var animate_delay = "delay__" + $(item).data('delay');
                     var animate_class = "";
                     switch(animate_nm) {
                         case "slideleft":
@@ -90,12 +91,12 @@
                         }
                         position = scroll;
                         console.log(wheelcontrol);
-
+    
                         if (isScrolledIntoView($(item),wheelcontrol)) {
-                            $(item).addClass(animate_class+" "+ (animate_duration ? animate_duration : ''));
+                            $(item).addClass(animate_class +" "+ (animate_duration ? animate_duration : '') + " " + (animate_delay ? animate_delay : ''));
                         }
                         if (!isScrolledIntoView($(item),wheelcontrol)) {
-                            $(item).removeClass(animate_class+" "+ (animate_duration ? animate_duration : ''));
+                            $(item).removeClass(animate_class + " " + (animate_duration ? animate_duration : '') + " " + (animate_delay ? animate_delay : ''));
                         }
                     });
                 });
@@ -111,6 +112,17 @@
 
             });
         })(jQuery);
+
+        function toggleContactLayer(event){
+            event.preventDefault();
+            var $layer = $('#layContact');
+            if ( !$layer.is(':visible') ){
+                $("html,body").animate({scrollTop : 0 }, 400);
+                $layer.fadeIn(300).addClass('dddd');
+            }else{
+                $layer.fadeOut(100).removeClass('dddd');
+            }
+        }
     </script>
 </div>
 </body>
