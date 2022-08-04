@@ -1,0 +1,33 @@
+@charset "utf-8";
+/******************************************************
+* 연관파일 : customRange.js 
+* 내용 : 양방향 input[type=range], 한방향으로 처리가능
+* 작성자 : 박현원
+* 작성일 : 22.08.04
+* 스크립트실행 : rangeBothSide('클래스명');
+* css수정 : --var-thumb-size : 20px; 버튼사이즈
+******************************************************/
+.custumRange { --var-thumb-size : 20px; position:relative; width: 100%;}
+.custumRange input[type=range] { position: absolute; top: -5px; left: 0; width: 100%; border: none; pointer-events: none; appearance: none; opacity: 0; z-index: 10;}
+.custumRange input[type=range]::-webkit-slider-thumb {pointer-events: all; appearance: none;  background-color: red;  width:var(--var-thumb-size); height: var(--var-thumb-size);} 
+
+.custumRange .track_wrap {position:relative;width: 100%;padding:0 calc(var(--var-thumb-size) / 2);}
+.custumRange .track {position: relative;width: 100%; height: 10px;background-color: #bdc3c7;border-radius: 5px;}
+.custumRange .track .range {position: absolute; top: 0; bottom: 0; left: 0; right: 0; background-color: #2c3e50; border-radius:0;}
+.custumRange .track .thumb { position: absolute; top: 50%; transform: translateY(-50%); width: var(--var-thumb-size); height: var(--var-thumb-size); background-color: black; border-radius: 50%;}
+.custumRange .track .thumb span {position: absolute;white-space: nowrap;font-size: 12px;color:#fff;background-color: #2c3e50;line-height: 26px;padding:0 10px;bottom: 100%;left:50%;margin-bottom:5px;transform: translateX(-50%);}
+.custumRange .track .thumb.left {margin-left: calc(calc(var(--var-thumb-size) / 2) * -1); left: 0;}
+.custumRange .track .thumb.right {margin-right: calc(calc(var(--var-thumb-size) / 2) * -1); right: 0;}
+
+.custumRange_oneway { --var-thumb-size2 : 20px; position:relative; width: 100%;}
+.custumRange_oneway input[type=range] { position: absolute; top: -5px; left: 0; width: 100%; border: none; pointer-events: none; appearance: none; opacity: 0; z-index: 10;}
+.custumRange_oneway input[type=range]::-webkit-slider-thumb {pointer-events: all; appearance: none;  background-color: red;  width:var(--var-thumb-size2); height: var(--var-thumb-size2);} 
+
+.custumRange_oneway .track_wrap {position:relative;width: 100%;padding:0 calc(var(--var-thumb-size2) / 2);}
+.custumRange_oneway .track {position: relative;width: 100%; height: 10px;background-color: #bdc3c7;border-radius: 5px;}
+.custumRange_oneway .track .range {position: absolute; top: 0; bottom: 0; left: 0; right: 0; background-color: #2c3e50; border-radius:0;}
+.custumRange_oneway .track .thumb { position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: var(--var-thumb-size2); height: var(--var-thumb-size2); margin-right: calc(calc(var(--var-thumb-size2) / 2) * -1); background-color: black; border-radius: 50%;}
+.custumRange_oneway .track .thumb span {position: absolute;white-space: nowrap;font-size: 12px;color:#fff;background-color: #2c3e50;line-height: 26px;padding:0 10px;bottom: 100%;left:50%;margin-bottom:5px;transform: translateX(-50%);}
+
+
+

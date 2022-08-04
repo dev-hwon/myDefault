@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/bothSideRange.css" />
+    <script src="js/customRange.js"></script>
+</head>
+
+<body>
+    <form class="box" style="margin-top:50px;">
+        <div class="custumRange">
+            <div class="track_wrap">
+                <div class="track">
+                    <div class="range"></div>
+                    <div class="thumb left"></div>
+                    <div class="thumb right"></div>
+                </div>
+            </div>
+            <input type="range" class="input_left" step="5000" min="0" max="115000" value="0" />
+            <input type="range" class="input_right" step="5000" min="0" max="115000" value="115000" />
+        </div>
+    </form>
+    <form class="box" style="margin-top:50px;">
+        <div class="custumRange_oneway">
+            <div class="track_wrap">
+                <div class="track">
+                    <div class="range"></div>
+                    <div class="thumb"></div>
+                </div>
+            </div>
+            <input type="range" class="input_range" step="5000" min="0" max="115000" value="115000" />
+        </div>
+    </form>
+    
+    <script>
+        oneWayRange('.custumRange_oneway');
+        rangeBothSide('.custumRange');
+    </script>
+
+</body>
+</html>
