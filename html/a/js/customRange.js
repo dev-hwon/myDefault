@@ -66,3 +66,46 @@ function rangeBothSide(target) {
         inputRight.addEventListener("input", setRightValue);
     }
 }
+
+// jquery 로 작업
+// function rangeBothSide(elem) {
+//     var _target = $(elem);
+// 	var outputLeft = _target.find(".thumb_value .left em");
+//     var outputRight = _target.find(".thumb_value .right em");
+//     var inputLeft = _target.find(".input_min");
+//     var inputRight = _target.find(".input_max");
+//     var thumbLeft = _target.find(".thumb.min");
+//     var thumbRight = _target.find(".thumb.max");
+//     var range = _target.find(".range");
+// 	function setLeftValue(event) {
+//         var _this = event.target;
+//         var {step, value, min, max } = _this;  
+//         if (+inputRight.value - +value <= step) {
+//             _this.value = +inputRight.value - step;
+//         }
+//         var percent = ((+_this.value - +min) / (+max - +min)) * 100;
+// 		inputLeft.val(_this.value);
+// 		outputLeft.html(addComma(_this.value));
+//         thumbLeft.css('left', percent+'%');
+//         range.css('left', percent+'%');
+//     };
+// 	function setRightValue(event) {
+//         var _this = event.target;
+//         var {step, value, min, max } = _this;
+//         if (+value - +inputLeft.value <= step) {
+//             _this.value = +inputLeft.value + +step;
+//         }
+//         var percent = ((+_this.value - +min) / (+max - +min)) * 100;
+// 		inputRight.val(_this.value);
+// 		outputRight.html(addComma(_this.value));
+//         thumbRight.css('right', (100 - percent)+'%');
+//         range.css('right', (100 - percent)+'%');
+//     };
+
+//     if (inputLeft && inputRight) {
+//         inputLeft.on("input", function(){ setLeftValue(event); });
+// 		inputRight.on("input", function(){ setRightValue(event); });
+//     }
+	
+// }
+// rangeBothSide('.rangeBothSide');
