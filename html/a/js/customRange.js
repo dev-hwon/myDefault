@@ -109,3 +109,97 @@ function rangeBothSide(target) {
 	
 // }
 // rangeBothSide('.rangeBothSide');
+
+
+// // 퍼블용_양방향 레인지(메인, 바텀시트)
+// // 개발시 검색값 적용되면 한쪽처리되면 다른쪽에 값이 입력되게 처리.
+// // 현재는 두군데 동시작동되어 이중으로 검색처리 될듯?
+// function rangeBothSide(elem, min, max, step) {
+//     var _target = $(elem);
+// 	var outputMaxBalloon = _target.find(".thumb .balloon em");
+// 	var outputMin = _target.find(".thumb_value .min em");
+//     var outputMax = _target.find(".thumb_value .max em");
+// 	var inputTextMin = _target.find(".input--text-min");
+//     var inputTextMax = _target.find(".input--text-max");
+//     var inputMin = _target.find(".input--range-min");
+//     var inputMax = _target.find(".input--range-max");
+//     var thumbMin = _target.find(".thumb.min");
+//     var thumbMax = _target.find(".thumb.max");
+//     var range = _target.find(".range");
+// 	var dataResultCnt = '45' // 검색결과 총갯수 하단검색결과 갯수랑 맞춰야되는건지.. 다른옵션선택시 결과값변경되면 이것도변경되야하는건지... 들은내용없음... 답답
+
+// 	// 움직임
+// 	function moveMinThumb(val) {
+// 		var percent = ((+val - min) / (max - min)) * 100;
+// 		thumbMin.css('left', percent+'%');
+//         range.css('left', percent+'%');
+// 	}
+// 	function moveMaxThumb(val) {
+// 		var percent = ((+val - min) / (max - min)) * 100;
+// 		thumbMax.css('right', (100 - percent)+'%');
+//         range.css('right', (100 - percent)+'%');
+// 	}
+
+// 	// 공통입력
+// 	function inputMinCommon(val) {
+// 		inputMin.val(val);
+// 		inputTextMin.val(val);
+// 		outputMin.text(addComma(val))
+// 	}
+// 	function inputMaxCommon(val) {
+// 		inputMax.val(val);
+// 		inputTextMax.val(val);
+// 		outputMax.text(addComma(val));
+// 		outputMaxBalloon.text(dataResultCnt);
+// 	}
+
+// 	// 직접입력값체크
+// 	function setTextMinCheck(val) {
+// 		if(val < min) return min;
+// 		if(val >= +inputTextMax.val()) return +inputTextMax.val() - step;
+// 	}
+// 	function setTextMaxCheck(val) {
+// 		if(val > max) return max;
+// 		if(val <= +inputMin.val()) return +inputMin.val() + step;
+// 	}
+
+// 	// 직접입력
+// 	function setTextMinValue(event) {
+// 		var _value = Math.round(event.target.value / 5000) * 5000;
+// 		_value = setTextMinCheck(_value);
+// 		inputMinCommon(_value);
+// 		moveMinThumb(_value);
+// 	}
+// 	function setTextMaxValue() {
+// 		var _value = Math.round(event.target.value / 5000) * 5000;
+// 		_value = setTextMaxCheck(_value);
+// 		inputMaxCommon(_value);
+// 		moveMaxThumb(_value);
+// 	}
+
+// 	// 범위설정
+// 	function setMinValue(event) {
+//         if (inputMax.val() - +event.target.value <= step) {
+//             event.target.value = inputMax.val() - step;
+//         }
+// 		inputMinCommon(event.target.value);
+// 		moveMinThumb(event.target.value);
+//     }
+// 	function setMaxValue(event) {
+// 		if (+event.target.value - +inputMin.val() <= step) {
+//             event.target.value = +inputMin.val() + +step;
+//         }
+// 		inputMaxCommon(event.target.value);
+// 		moveMaxThumb(event.target.value);
+//     }
+
+// 	// 실행
+//     if (inputMin && inputMax) {
+// 		inputMin.on("input", function(){ setMinValue(event); });
+// 		inputMax.on("input", function(){ setMaxValue(event); });
+//     }
+	
+// 	inputTextMin.on('change', function(){ setTextMinValue(event);});
+// 	inputTextMax.on('change', function(){ setTextMaxValue(event);});
+// }
+// rangeBothSide('.rangeBothSide', 20000, 110000, 5000);
