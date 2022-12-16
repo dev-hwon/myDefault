@@ -21,14 +21,17 @@
     --bs-danger: #dc3545;
     --bs-light: #f8f9fa;
     --bs-dark: #212529;
-    --font-common-family: 13px/1.4 -apple-system,system-ui,BlinkMacSystemFont,"맑은 고딕","Malgun Gothic","Apple SD Gothic Neo","돋움",dotum,sans-serif;
+    --font-family-common: 13px/1.4 -apple-system,system-ui,BlinkMacSystemFont,"맑은 고딕","Malgun Gothic","Apple SD Gothic Neo","돋움",dotum,sans-serif;
+    --font-family-nanum : 'Nanum Gothic', sans-serif;;
+    --font-family-noto : 'Noto Sans KR', sans-serif;
+    --font-family-roboto : 'Roboto', sans-serif;
     --font-lg:18px;
     --font-md:16px;
     --font-sm:13px;
     --font-xs:11px;
-    --color-enuri-blue : #d7003c;  /* 에누리 블루 */
-    --color-enuri-blue : #0073be;  /* 에누리 블루 */
-    --color-enuri-sky : #30a7f7; /* 에누리 스카이 */
+    --color-enuri-red1 : #d7003c;  /* 에누리 블루 */
+    --color-enuri-blue2 : #0073be;  /* 에누리 블루 */
+    --color-enuri-blue1 : #30a7f7; /* 에누리 스카이 */
     --url-comm-sprite : url('./images/common/common_sprite.png'); /* 공통 Sprite */
 }
 *{
@@ -41,11 +44,9 @@
     box-sizing: border-box;
 }
 html,body{
-    width:100%;
-    height:100%;
     margin:0;
     padding:0;
-    font:var(--font-common-family);
+    font:var(--font-family-common);
     vertical-align:middle;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -67,8 +68,9 @@ hr{
 img {
     border:none;
     outline:none;
+    max-width: 100%;
 }
-.clear:after {
+.clearfix:after {
     content:"";
     display:block;
     clear:both;
@@ -113,11 +115,9 @@ textarea:focus:-ms-input-placeholder {color:transparent;}
 /* ----------------------------------------------------------------
                      font 서체
 -----------------------------------------------------------------*/
-.font-nanum {font-family: 'Nanum Gothic', sans-serif;}
-.font-notoKr {font-family: 'Noto Sans KR', sans-serif;}
-.font-roboto {font-family: 'Roboto', sans-serif;}
-
-
+.font-nanum {font-family: var(--font-family-nanum); }
+.font-notoKr {font-family: var(--font-family-noto);}
+.font-roboto {font-family: var(--font-family-roboto);}
 
 /* ----------------------------------------------------------------
                      태이블 기본
@@ -184,47 +184,31 @@ textarea:focus:-ms-input-placeholder {color:transparent;}
 /* ----------------------------------------------------------------
 							칼럼커스텀
 -----------------------------------------------------------------*/
-.row {
-    margin-left:-15px;
-    margin-right:-15px;
-}
-.row:after {
-    content:"";
-    display:block;
-    clear:both;
-}
-.col{
-    float:left;
-    padding-left:15px;
-    padding-right:15px;
-}
-.col_10 {width: 10%;}
-.col_20 {width: 20%;}
-.col_30 {width: 30%;}
-.col_40 {width: 40%;}
-.col_50 {width: 50%;}
-.col_60 {width: 60%;}
-.col_70 {width: 70%;}
-.col_80 {width: 80%;}
-.col_90 {width: 90%;}
-.col_full {width: 100%;}
+/* ---------------------------------------------------------
+        @공통_그리드
+--------------------------------------------------------- */
+.col_wrap {display: flex;flex-wrap:wrap;}
+.col_nowarp {flex-wrap: nowrap;}
+.col {flex:0 0 auto; position: relative; min-height: 1px;}
 
-.row-gap-10 {
-    margin-left:-5px;
-    margin-right:-5px;
-}
-.row-gap-10 > div {
-    padding-left:5px;
-    padding-right:5px;
-}
-.row-gap-20 {
-    margin-left:-10px;
-    margin-right:-10px;
-}
-.row-gap-20 > div {
-    padding-left:10px;
-    padding-right:10px;
-}
+.col_gap_8 {margin:0 -4px;}
+.col_gap_8 > .col {padding:0 4px;}
+.col_gap_14 {margin:0 -7px;}
+.col_gap_14 > .col {padding:0 7px;}
+.col_gap_16 {margin:0 -8px;}
+.col_gap_16 > .col {padding:0 8px; margin-bottom:16px;}
+
+.col_full {width:100%}
+.col_half {width:50%}
+.col_12 {width: 100%;}.col_11 {width: 91.66666667%;}.col_10 {width: 83.33333333%;}.col_9 {width: 75%;}.col_8 {width: 66.66666667%;}.col_7 {width: 58.33333333%;}.col_6 {width: 50%;}.col_5 {width: 41.66666667%;}.col_4 {width: 33.33333333%;}.col_3 {width: 25%;}.col_2 {width: 16.66666667%;}.col_1 {width: 8.33333333%;}
+
+@media (max-width:767px) {.col_xs_12 {width: 100%;} .col_xs_11 {width: 91.66666667%;} .col_xs_10 {width: 83.33333333%;} .col_xs_9 {width: 75%;} .col_xs_8 {width: 66.66666667%;} .col_xs_7 {width: 58.33333333%;} .col_xs_6 {width: 50%;} .col_xs_5 {width: 41.66666667%;} .col_xs_4 {width: 33.33333333%;} .col_xs_3 {width: 25%;} .col_xs_2 {width: 16.66666667%;} .col_xs_1 {width: 8.33333333%;}}
+
+@media (min-width:768px) {.col_sm_12 {width: 100%;} .col_sm_11 {width: 91.66666667%;} .col_sm_10 {width: 83.33333333%;} .col_sm_9 {width: 75%;} .col_sm_8 {width: 66.66666667%;} .col_sm_7 {width: 58.33333333%;} .col_sm_6 {width: 50%;} .col_sm_5 {width: 41.66666667%;} .col_sm_4 {width: 33.33333333%;} .col_sm_3 {width: 25%;} .col_sm_2 {width: 16.66666667%;} .col_sm_1 {width: 8.33333333%;}}
+
+@media (min-width:992px) {.col_md_12 {width: 100%;} .col_md_11 {width: 91.66666667%;} .col_md_10 {width: 83.33333333%;} .col_md_9 {width: 75%;} .col_md_8 {width: 66.66666667%;} .col_md_7 {width: 58.33333333%;} .col_md_6 {width: 50%;} .col_md_5 {width: 41.66666667%;} .col_md_4 {width: 33.33333333%;} .col_md_3 {width: 25%;} .col_md_2 {width: 16.66666667%;} .col_md_1 {width: 8.33333333%;}}
+
+@media (min-width:1200px) {.col_lg_12 {width: 100%;}.col_lg_11 {width: 91.66666667%;}.col_lg_10 {width: 83.33333333%;}.col_lg_9 {width: 75%;}.col_lg_8 {width: 66.66666667%;}.col_lg_7 {width: 58.33333333%;}.col_lg_6 {width: 50%;}.col_lg_5 {width: 41.66666667%;}.col_lg_4 {width: 33.33333333%;}.col_lg_3 {width: 25%;}.col_lg_2 {width: 16.66666667%;}.col_lg_1 {width: 8.33333333%;}}
 
 /* ----------------------------------------------------------------
                        스크롤바
@@ -239,18 +223,14 @@ textarea:focus:-ms-input-placeholder {color:transparent;}
 /* ----------------------------------------------------------------
                        container
 -----------------------------------------------------------------*/
-.container {
-    position:relative;
-    margin: 0 auto;
-}
-@media (max-width: 767px) { .container {width:100%;}}
-@media (min-width: 768px) { .container {width:750px;}}
-@media (min-width: 992px) { .container {width:970px;}}
-@media (min-width: 1200px) { .container {width:1170px;}}
-@media (min-width: 1400px) { .container {width:1280px;}}
-.full-width {
-    width:100%!important;
-}
+.container { position:relative; margin: 0 auto;}
+@media (max-width:767px){.container {width:100%}}
+@media (min-width:768px){.container{width:750px}}
+@media (min-width:992px){.container{width:970px}}
+@media (min-width:1200px){.container{width:1170px}}
+@media (min-width:1400px){.container {width:1280px}}
+
+.full-width {width:100%!important;}
 /* ----------------------------------------------------------------
                        정렬
 -----------------------------------------------------------------*/
@@ -361,30 +341,23 @@ textarea:focus:-ms-input-placeholder {color:transparent;}
 .nopadding{padding:0!important;}
 .nomargin{margin:0!important;}
 .nobg{background: none!important;}
-.display-none {display:none!important;}
 .font-default {font-size:12px; color:#333;}
 .border-default {border: 1px solid #e0e0e0;}
 .vertical-middle {
     display:inline-block;
     vertical-align:middle;
 }
-
-.hidden, .hide {
-    overflow: hidden!important;
-}
-.visible {
-    overflow: visible!important;
-}
+.display-none {display:none!important;}
+.hidden, .hide { overflow: hidden!important;}
+.visible { overflow: visible!important;}
 
 /* ----------------------------------------------------------------
                       말줄임
 -----------------------------------------------------------------*/
-.text-shortening {
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    word-wrap:normal;
-    overflow:hidden;
-}
+.tx_shortening_1 {overflow:hidden; white-space: nowrap; word-break: break-all; text-overflow: ellipsis;}
+.tx_shortening_2 {overflow:hidden; display:-webkit-box; -o-text-overflow:ellipsis; text-overflow:ellipsis; -webkit-line-clamp:2; -webkit-box-orient:vertical; word-wrap:break-word; word-break:break-all;}
+.tx_shortening_3 {overflow:hidden; display:-webkit-box; -o-text-overflow:ellipsis; text-overflow:ellipsis; -webkit-line-clamp:3; -webkit-box-orient:vertical; word-wrap:break-word; word-break:break-all;}
+.tx_shortening_4 {overflow:hidden; display:-webkit-box; -o-text-overflow:ellipsis; text-overflow:ellipsis; -webkit-line-clamp:4; -webkit-box-orient:vertical; word-wrap:break-word; word-break:break-all;}
 
 /* ----------------------------------------------------------------
                      폰트사이즈
@@ -399,8 +372,6 @@ textarea:focus:-ms-input-placeholder {color:transparent;}
 .font18 {font-size: 18px!important;}
 .font19 {font-size: 19px!important;}
 .font20 {font-size: 20px!important;}
-
-
 
 /* ----------------------------------------------------------------
                      컬러
